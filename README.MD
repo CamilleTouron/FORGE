@@ -11,8 +11,18 @@ Before you begin, make sure you have the following tools installed:
 
 ### Docker
 
-- Docker 
+- Docker
 - Ensure that your Docker daemon is running and properly configured
+
+## CONFIGURATIONS
+You can configure the Hammer tool by modifying the `config.json` or `config.yaml` file. 
+The configuration file contains the following parameters: 
+- `project_name`: The name of the project
+- `project_port`: The port number for the server
+
+You can configure the models by modifying the `models.json` or `models.yaml` file.
+The script does not validate the models, so make sure they are correct before running the script.
+**The script does not support nested models nor relationships between models.**
 
 ## USING JSON
 
