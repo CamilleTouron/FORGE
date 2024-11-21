@@ -16,10 +16,10 @@ Before you begin, make sure you have the following tools installed:
 
 ## USING JSON
 
-To use the Hammer tool with JSON configuration:
+To use the Hammer tool with JSON configuration, no option needed as json is the default format:
 
 ```bash
-./hammer_out.sh --format=json
+./hammer_out.sh
 ```
 
 ## USING YAML
