@@ -1,12 +1,12 @@
 import os
 import shutil
-import json
+import yaml
 
 print("Creating project...")
 
 # Read the configuration file
-with open('config.json', 'r') as config_file:
-    config = json.load(config_file)
+with open('config.yaml', 'r') as config_file:
+    config = yaml.load(config_file, Loader=yaml.FullLoader)
 print("Configuration fetched.")
 
 # Get project name
@@ -23,7 +23,7 @@ if os.path.exists(project_name):
     exit()
 
 # Copy the template project
-shutil.copytree('template', project_name)
+shutil.copytree('mold', project_name)
 print(f"Template copied with name {project_name}.")
 
 print("Creating project ...")
@@ -33,7 +33,7 @@ os.chdir(project_name)
 # Change name in package.json to project name
 with open('package.json', 'r') as file:
     filedata = file.read()
-filedata = filedata.replace('template', project_name)
+filedata = filedata.replace('mold', project_name)
 with open('package.json', 'w') as file:
     file.write(filedata)
 print("Package.json updated.")
@@ -41,7 +41,7 @@ print("Package.json updated.")
 # Change name in .env to project name and port
 with open('.env', 'r') as file:
     filedata = file.read()
-filedata = filedata.replace('template', project_name)
+filedata = filedata.replace('mold', project_name)
 filedata = filedata.replace('3000', str(project_port))
 with open('.env', 'w') as file:
     file.write(filedata)
@@ -50,12 +50,12 @@ print(".env updated.")
 # Change directory to root
 os.chdir('..')
 
-# Get entity structure from models.json
-with open('models.json', 'r') as models_file:
-    models = json.load(models_file)
+# Get entity structure from models.yaml
+with open('models.yaml', 'r') as models_file:
+    models = yaml.load(models_file, Loader=yaml.FullLoader)
 
 # Change directory to the prisma folder
-os.chdir(project_name)
+os .chdir(project_name)
 os.chdir('prisma')
 
 # Add models to schema.prisma
@@ -79,7 +79,6 @@ os.chdir('src')
 
 # For each model create a directory with the model name and a new controller with crud file and route file
 # list of models name to add after to app.js
-# For each model create a directory with the model name and a new controller with CRUD file and route file
 models_name = []
 for model in models:
     model_name = model['name'].lower()
@@ -166,6 +165,8 @@ with open('app.js', 'a') as app_file:
     app_file.write("const project_name = process.env.PROJECT_NAME || 'new_project'\n")
     app_file.write("\n")
     app_file.write(f"app.use(express.json())\n")
+    app_file.write("\n")
+    app_file.write(f"app.get('/', (req, res) => res.send('Hammer did strike again !'))\n")
     app_file.write("\n")
     for model_name in models_name:
         app_file.write(f"app.use('/{model_name}', {model_name}_routes)\n")
